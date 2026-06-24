@@ -2,7 +2,7 @@
 
 An unsolicited spec concept I built for ElevenLabs' Agents platform: a positioning angle and landing page for taking conversational AI agents to enterprise financial-services buyers.
 
-**[View the live page →](https://aliyasaiyed.github.io/REPO-1-NAME/)**
+**[View the live page →](https://aliyasaiyed.github.io/elevenagents-finserv-concept/)**
 
 ## Why this vertical
 
