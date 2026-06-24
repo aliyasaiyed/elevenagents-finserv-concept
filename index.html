@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElevenAgents for Financial Services — Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B0B0C;
+    --ink-soft:#1A1A1D;
+    --paper:#F4F3EF;
+    --paper-cool:#EAE9E3;
+    --line:#D7D5CC;
+    --line-dark:#2A2A2E;
+    --signal:#E8A33D;      /* warm voice/amber accent */
+    --signal-deep:#C8821F;
+    --resolve:#4F7D6A;     /* calm resolved-green, used sparingly */
+    --muted:#6B6A64;
+    --muted-dark:#9B9A93;
+    --maxw:1140px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;line-height:1.02;letter-spacing:-0.02em;font-weight:700}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  a{color:inherit}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(244,243,239,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque';font-weight:800;font-size:18px;letter-spacing:-.02em}
+  .brand .dot{display:inline-flex;gap:2px;align-items:flex-end;height:18px}
+  .brand .dot i{width:3px;background:var(--ink);border-radius:2px;display:block}
+  .brand .dot i:nth-child(1){height:7px}
+  .brand .dot i:nth-child(2){height:14px}
+  .brand .dot i:nth-child(3){height:18px}
+  .brand .dot i:nth-child(4){height:10px}
+  .nav-links{display:flex;gap:26px;font-size:14px;color:var(--muted)}
+  .nav-links a{text-decoration:none}
+  .nav-links a:hover{color:var(--ink)}
+  .btn{font-family:'Inter';font-weight:600;font-size:14px;border:0;cursor:pointer;border-radius:999px;padding:11px 20px;text-decoration:none;display:inline-block;transition:transform .15s ease, background .15s ease}
+  .btn-primary{background:var(--ink);color:var(--paper)}
+  .btn-primary:hover{transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper)}
+  @media(max-width:760px){.nav-links{display:none}}
+
+  /* hero */
+  .hero{padding:84px 0 64px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--signal-deep);margin-bottom:22px}
+  .hero h1{font-size:clamp(40px,6.4vw,76px);font-weight:800;max-width:14ch}
+  .hero p.lede{font-size:clamp(17px,2.1vw,21px);color:var(--muted);max-width:54ch;margin:26px 0 32px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center}
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:40px}}
+
+  /* call panel signature */
+  .callcard{background:var(--ink);color:var(--paper);border-radius:18px;padding:26px;box-shadow:0 24px 60px -28px rgba(11,11,12,.55)}
+  .callcard .top{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted-dark);font-family:'IBM Plex Mono'}
+  .live{display:flex;align-items:center;gap:7px}
+  .live .pulse{width:8px;height:8px;border-radius:50%;background:var(--resolve);box-shadow:0 0 0 0 rgba(79,125,106,.6);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(79,125,106,.55)}70%{box-shadow:0 0 0 10px rgba(79,125,106,0)}100%{box-shadow:0 0 0 0 rgba(79,125,106,0)}}
+  .wave{display:flex;align-items:center;gap:4px;height:78px;margin:22px 0 18px}
+  .wave i{flex:1;background:linear-gradient(180deg,var(--signal),var(--signal-deep));border-radius:3px;height:14%;transform-origin:center;animation:bar 1.6s ease-in-out infinite}
+  .wave i:nth-child(odd){animation-duration:1.9s}
+  @keyframes bar{0%,100%{height:14%}50%{height:88%}}
+  .transcript{font-size:14px;border-top:1px solid var(--line-dark);padding-top:16px}
+  .transcript .line{display:flex;gap:10px;margin-bottom:9px}
+  .transcript .who{font-family:'IBM Plex Mono';font-size:11px;color:var(--muted-dark);min-width:54px;padding-top:2px;letter-spacing:.04em}
+  .transcript .said{color:#E6E5E0}
+  .resolved{display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding-top:16px;border-top:1px solid var(--line-dark);font-family:'IBM Plex Mono';font-size:13px}
+  .resolved .tag{color:var(--resolve)}
+  .resolved .timer{color:var(--signal)}
+
+  /* trust strip */
+  .trust{padding:30px 0;border-bottom:1px solid var(--line);background:var(--paper-cool)}
+  .trust-in{display:flex;align-items:center;gap:30px;flex-wrap:wrap;justify-content:space-between}
+  .trust-label{font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .badges{display:flex;gap:26px;flex-wrap:wrap;font-family:'IBM Plex Mono';font-size:13px;color:var(--ink)}
+  .badges span{display:flex;align-items:center;gap:8px}
+  .badges span::before{content:"";width:6px;height:6px;background:var(--signal);border-radius:50%}
+
+  /* sections */
+  section.block{padding:90px 0;border-bottom:1px solid var(--line)}
+  .kicker{font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--signal-deep);margin-bottom:16px}
+  h2.big{font-size:clamp(30px,4.4vw,52px);max-width:18ch;font-weight:800}
+  .sub{color:var(--muted);font-size:18px;max-width:56ch;margin-top:18px}
+
+  /* stakes */
+  .stakes{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
+  @media(max-width:820px){.stakes{grid-template-columns:1fr}}
+  .stat{border-top:2px solid var(--ink);padding-top:18px}
+  .stat .n{font-family:'Bricolage Grotesque';font-weight:800;font-size:46px;letter-spacing:-.03em;line-height:1}
+  .stat .n small{font-size:24px;color:var(--signal-deep)}
+  .stat .d{color:var(--muted);font-size:15px;margin-top:10px;max-width:30ch}
+
+  /* capabilities */
+  .caps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:50px}
+  @media(max-width:820px){.caps{grid-template-columns:1fr}}
+  .cap{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;transition:border-color .2s,transform .2s}
+  .cap:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .cap .num{font-family:'IBM Plex Mono';font-size:12px;color:var(--muted);letter-spacing:.1em}
+  .cap h3{font-size:21px;margin:14px 0 10px;font-weight:700}
+  .cap p{color:var(--muted);font-size:15px}
+
+  /* use cases */
+  .usewrap{background:var(--ink);color:var(--paper)}
+  .usewrap .kicker{color:var(--signal)}
+  .usewrap h2.big,.usewrap .sub{color:var(--paper)}
+  .usewrap .sub{color:var(--muted-dark)}
+  .cases{display:grid;grid-template-columns:repeat(2,1fr);gap:0;margin-top:50px;border:1px solid var(--line-dark);border-radius:14px;overflow:hidden}
+  @media(max-width:760px){.cases{grid-template-columns:1fr}}
+  .case{padding:30px;border-right:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark)}
+  .case:nth-child(2n){border-right:0}
+  .case .ix{font-family:'IBM Plex Mono';font-size:12px;color:var(--signal)}
+  .case h3{font-size:20px;margin:12px 0 9px;color:var(--paper);font-weight:700}
+  .case p{color:var(--muted-dark);font-size:14.5px}
+
+  /* outcomes */
+  .out{display:grid;grid-template-columns:1.2fr 1fr;gap:54px;align-items:center}
+  @media(max-width:860px){.out{grid-template-columns:1fr;gap:36px}}
+  .quote{font-family:'Bricolage Grotesque';font-weight:500;font-size:clamp(22px,2.8vw,30px);line-height:1.25;letter-spacing:-.01em}
+  .quote .by{display:block;font-family:'IBM Plex Mono';font-size:13px;color:var(--muted);margin-top:20px;letter-spacing:.03em}
+  .outstats{display:grid;gap:20px}
+  .ostat{border-left:2px solid var(--signal);padding-left:18px}
+  .ostat .n{font-family:'Bricolage Grotesque';font-weight:800;font-size:38px;line-height:1;letter-spacing:-.02em}
+  .ostat .d{color:var(--muted);font-size:14px;margin-top:6px}
+
+  /* security */
+  .seclist{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 40px;margin-top:44px}
+  @media(max-width:700px){.seclist{grid-template-columns:1fr}}
+  .sec{display:flex;gap:14px;align-items:flex-start}
+  .sec .mk{font-family:'IBM Plex Mono';color:var(--signal-deep);font-size:14px;padding-top:2px}
+  .sec h4{font-size:16px;font-weight:600;margin-bottom:4px;font-family:'Inter'}
+  .sec p{color:var(--muted);font-size:14px}
+
+  /* final cta */
+  .final{background:var(--ink);color:var(--paper);text-align:center;padding:96px 0}
+  .final h2{font-size:clamp(32px,5vw,58px);font-weight:800;max-width:16ch;margin:0 auto}
+  .final p{color:var(--muted-dark);margin:22px auto 34px;max-width:48ch;font-size:18px}
+  .final .btn-primary{background:var(--signal);color:var(--ink)}
+  .final .btn-ghost{border-color:var(--muted-dark);color:var(--paper)}
+  .final .btn-ghost:hover{background:var(--paper);color:var(--ink)}
+
+  /* footer / spec note */
+  footer{padding:44px 0;font-size:13px;color:var(--muted)}
+  .specnote{background:var(--paper-cool);border:1px dashed var(--line);border-radius:12px;padding:20px 22px;margin-bottom:30px;font-size:13.5px;color:var(--muted);line-height:1.6}
+  .specnote b{color:var(--ink);font-family:'Inter'}
+
+  @media (prefers-reduced-motion: reduce){
+    .wave i,.live .pulse{animation:none}
+    .wave i{height:50%}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <div class="brand"><span class="dot"><i></i><i></i><i></i><i></i></span>ElevenAgents</div>
+    <div class="nav-links">
+      <a href="#stakes">The cost of hold</a>
+      <a href="#how">How it works</a>
+      <a href="#cases">Use cases</a>
+      <a href="#security">Security</a>
+    </div>
+    <a href="#demo" class="btn btn-primary">Book a demo</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Built for regulated financial services</div>
+      <h1>Answer every customer on the first ring.</h1>
+      <p class="lede">ElevenAgents resolves support, servicing, and collections conversations in natural voice and chat. No queues, no hold music, no after-hours gaps. Deployed with the testing, monitoring, and controls regulated teams require.</p>
+      <div class="hero-cta">
+        <a href="#demo" class="btn btn-primary">Book a demo</a>
+        <a href="#how" class="btn btn-ghost">Hear a sample call</a>
+      </div>
+    </div>
+
+    <div class="callcard" aria-label="Example resolved call">
+      <div class="top">
+        <span class="live"><span class="pulse"></span>Live call</span>
+        <span>EN · retail banking</span>
+      </div>
+      <div class="wave" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="transcript">
+        <div class="line"><span class="who">CALLER</span><span class="said">My card got declined and I'm travelling tomorrow.</span></div>
+        <div class="line"><span class="who">AGENT</span><span class="said">I can see the block. It was a fraud hold from a charge in Lisbon. Was that you?</span></div>
+        <div class="line"><span class="who">CALLER</span><span class="said">Yes, that was me.</span></div>
+        <div class="line"><span class="who">AGENT</span><span class="said">Cleared. Your card works now, and I've noted your travel so it won't happen again.</span></div>
+      </div>
+      <div class="resolved">
+        <span class="tag">● Resolved · no human handoff</span>
+        <span class="timer" id="timer">0:41</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="trust">
+  <div class="wrap trust-in">
+    <span class="trust-label">Designed to clear procurement and risk review</span>
+    <div class="badges">
+      <span>SOC 2 Type II</span>
+      <span>PII redaction</span>
+      <span>Data residency</span>
+      <span>Human-in-the-loop escalation</span>
+    </div>
+  </div>
+</div>
+
+<section class="block" id="stakes">
+  <div class="wrap">
+    <div class="kicker">The cost of hold</div>
+    <h2 class="big">Every second on hold is a customer deciding to leave.</h2>
+    <p class="sub">Financial customers call at the highest-stakes moments: a declined card, a missed payment, a suspected fraud. Long queues and 9-to-5 coverage turn those moments into churn, complaints, and compliance exposure.</p>
+    <div class="stakes">
+      <div class="stat">
+        <div class="n">~3<small> in 10</small></div>
+        <div class="d">callers abandon before reaching an agent during peak queues.<sup>*</sup></div>
+      </div>
+      <div class="stat">
+        <div class="n">61<small>%</small></div>
+        <div class="d">of support volume arrives outside standard staffed hours.<sup>*</sup></div>
+      </div>
+      <div class="stat">
+        <div class="n">$1M+</div>
+        <div class="d">annual cost of a single mid-size contact-center queue.<sup>*</sup></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="how">
+  <div class="wrap">
+    <div class="kicker">How it works</div>
+    <h2 class="big">A production-grade agent, not a chatbot demo.</h2>
+    <p class="sub">The hard part is not the first conversation. It is the ten-thousandth, handled reliably, measured, and safe. ElevenAgents is built for that.</p>
+    <div class="caps">
+      <div class="cap">
+        <div class="num">01 / RESOLVE</div>
+        <h3>Natural voice and chat</h3>
+        <p>Human-quality voice in 70+ languages, on the phone line your customers already call. Conversations that interrupt, clarify, and resolve, not menu trees.</p>
+      </div>
+      <div class="cap">
+        <div class="num">02 / CONNECT</div>
+        <h3>Wired into your core systems</h3>
+        <p>Authenticate the caller, read the account, take the action. Integrations into your CRM, core banking, and case tools so the agent can actually finish the job.</p>
+      </div>
+      <div class="cap">
+        <div class="num">03 / TRUST</div>
+        <h3>Tested, monitored, governed</h3>
+        <p>Simulation testing before launch, live monitoring after, and full transcript audit. Escalate to a human the moment a conversation calls for one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block usewrap" id="cases">
+  <div class="wrap">
+    <div class="kicker">Where it pays for itself</div>
+    <h2 class="big">Four conversations, handled end to end.</h2>
+    <p class="sub">Start with one high-volume, high-friction queue. Prove the resolution rate. Expand from there.</p>
+    <div class="cases">
+      <div class="case">
+        <div class="ix">USE CASE 01</div>
+        <h3>Card and fraud support</h3>
+        <p>Verify the caller, explain the block, lift the hold, and log travel notices, with no wait at the exact moment trust is on the line.</p>
+      </div>
+      <div class="case">
+        <div class="ix">USE CASE 02</div>
+        <h3>Payments and collections</h3>
+        <p>Proactive, compliant outreach that arranges payment plans and answers balance questions, in a consistent and recorded way every time.</p>
+      </div>
+      <div class="case">
+        <div class="ix">USE CASE 03</div>
+        <h3>Account servicing</h3>
+        <p>Balances, transfers, statements, and limit changes resolved in seconds, freeing human agents for the genuinely complex cases.</p>
+      </div>
+      <div class="case">
+        <div class="ix">USE CASE 04</div>
+        <h3>Claims and first notice of loss</h3>
+        <p>For insurers: capture the claim calmly and completely at any hour, route it correctly, and keep the customer informed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap out">
+    <div>
+      <div class="kicker">Outcome</div>
+      <p class="quote">"We deflected the queue we could never staff. Customers stopped waiting, and our human team finally got to the work that needed a human."
+        <span class="by">— [Customer name], [Title], [Financial institution]</span>
+      </p>
+    </div>
+    <div class="outstats">
+      <div class="ostat"><div class="n">[XX]%</div><div class="d">of contacts resolved without human handoff</div></div>
+      <div class="ostat"><div class="n">&lt;[X]s</div><div class="d">average answer time, day or night</div></div>
+      <div class="ostat"><div class="n">[XX]%</div><div class="d">reduction in cost per resolved contact</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="security">
+  <div class="wrap">
+    <div class="kicker">Security and compliance</div>
+    <h2 class="big">The answers your risk team asks first.</h2>
+    <div class="seclist">
+      <div class="sec"><span class="mk">→</span><div><h4>Data residency and retention</h4><p>Choose where conversation data lives and how long it is kept, to meet regional and regulatory requirements.</p></div></div>
+      <div class="sec"><span class="mk">→</span><div><h4>PII handling and redaction</h4><p>Sensitive data is recognised and redacted in transcripts and logs, with access controls around it.</p></div></div>
+      <div class="sec"><span class="mk">→</span><div><h4>Auditability</h4><p>Every conversation is transcribed, timestamped, and reviewable, with a clear record of the action the agent took.</p></div></div>
+      <div class="sec"><span class="mk">→</span><div><h4>Guardrails and escalation</h4><p>Define what the agent will and will not do, and hand off to a human the moment a call moves outside those bounds.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="final" id="demo">
+  <div class="wrap">
+    <h2>Take one queue off hold.</h2>
+    <p>Bring us your highest-volume call type. We will show you a working agent resolving it, on a real conversation, in under two weeks.</p>
+    <div class="hero-cta" style="justify-content:center">
+      <a href="#" class="btn btn-primary">Book a demo</a>
+      <a href="#" class="btn btn-ghost">Talk to sales</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="specnote">
+      <b>About this concept.</b> This is an unsolicited spec landing page created by <b>Aliya Saiyed</b> as a product-marketing work sample for the ElevenAgents team. It is not an official ElevenLabs page. Figures marked with <sup>*</sup> are illustrative industry placeholders, and bracketed values such as [XX]% mark where verified ElevenLabs customer data would replace them. The goal is to show positioning, message hierarchy, and copy for one vertical, not to publish numbers.
+    </div>
+    <div>Concept · ElevenAgents for Financial Services · Prepared by Aliya Saiyed</div>
+  </div>
+</footer>
+
+<script>
+  // subtle one-time count to the resolved time, respects reduced motion
+  (function(){
+    var el = document.getElementById('timer');
+    if(!el) return;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){ el.textContent = '0:41'; return; }
+    var target = 41, t = 0;
+    var iv = setInterval(function(){
+      t += 1;
+      el.textContent = '0:' + (t<10?'0':'') + t;
+      if(t>=target){ clearInterval(iv); }
+    }, 28);
+  })();
+</script>
+</body>
+</html>
